@@ -109,7 +109,7 @@ export const createTask = async (taskData: CreateTaskDTO): Promise<Task> => {
 };
 
 export const updateTask = async (
-  id: string,
+  id: number,
   taskData: UpdateTaskDTO
 ): Promise<Task> => {
   console.log(

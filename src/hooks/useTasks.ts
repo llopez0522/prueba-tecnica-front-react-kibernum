@@ -6,8 +6,7 @@ import {
   deleteTask,
   toggleTaskStatus,
 } from '../services/taskService';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { CreateTaskDTO, UpdateTaskDTO } from '../services/taskService';
+import type { UpdateTaskDTO } from '../services/taskService';
 import { Status } from '../types/types';
 
 export const useTasks = () => {
@@ -42,7 +41,7 @@ export const useCreateTask = () => {
 export const useUpdateTask = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, taskData }: { id: string; taskData: UpdateTaskDTO }) =>
+    mutationFn: ({ id, taskData }: { id: number; taskData: UpdateTaskDTO }) =>
       updateTask(id, taskData),
     onSuccess: (data) => {
       console.log('useUpdateTask: Tarea actualizada exitosamente:', data);

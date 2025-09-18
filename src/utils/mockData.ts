@@ -5,7 +5,7 @@ export const generateMockTasks = (): Task[] => {
   const tasks: Task[] = [];
   for (let i = 1; i <= 10; i++) {
     tasks.push({
-      id: `mock-${i}`,
+      id: i,
       title: `Tarea de ejemplo ${i}`,
       description: `Esta es la descripción para la tarea número ${i}. Incluye detalles importantes sobre lo que se debe hacer.`,
       status: Math.random() > 0.5 ? Status.Completed : Status.Pending,
