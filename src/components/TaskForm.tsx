@@ -19,6 +19,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState<Status>(Status.Pending);
   const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (taskToEdit) {
@@ -37,7 +38,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     return null;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
       setError('El título es obligatorio.');
@@ -50,10 +51,19 @@ const TaskForm: React.FC<TaskFormProps> = ({
       status, // Mantener como Status enum para la UI
     };
 
-    if (taskToEdit) {
-      onSubmit({ ...taskData, id: taskToEdit.id });
-    } else {
-      onSubmit(taskData);
+    try {
+      setErrorMessage(null); // Limpiar errores previos
+      if (taskToEdit) {
+        onSubmit({ ...taskData, id: taskToEdit.id });
+      } else {
+        onSubmit(taskData);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message); // Mostrará: "Task with title 'Nueva tarea' already exists"
+      } else {
+        setErrorMessage('Error inesperado al crear la tarea');
+      }
     }
   };
 
@@ -131,6 +141,14 @@ const TaskForm: React.FC<TaskFormProps> = ({
                 <option value={Status.Completed}>Completada</option>
               </select>
             </div>
+            {errorMessage && (
+              <div
+                className="error-alert"
+                style={{ color: 'red', marginBottom: '1rem' }}
+              >
+                {errorMessage}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b">
             <button
