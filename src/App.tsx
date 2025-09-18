@@ -28,17 +28,11 @@ const App: React.FC = () => {
 
   // React Query hooks
   const { data: tasks = [], isLoading, error } = useTasks();
-  console.log('App.tsx - tasks recibidas:', tasks);
-  console.log('App.tsx - isLoading:', isLoading);
-  console.log('App.tsx - error:', error);
 
   const createTaskMutation = useCreateTask();
   const updateTaskMutation = useUpdateTask();
   const deleteTaskMutation = useDeleteTask();
   const toggleStatusMutation = useToggleTaskStatus();
-
-  // Log temporal para debug del estado de React Query
-  console.log('App.tsx - React Query state:', { tasks, isLoading, error });
 
   // Mostrar errores de carga
   if (error) {
@@ -60,7 +54,7 @@ const App: React.FC = () => {
     } catch (error) {
       console.error('Error creating task:', error);
       setNotification({
-        message: 'Error al crear la tarea.',
+        message: `${error}`,
         type: 'error',
       });
     }
@@ -154,11 +148,6 @@ const App: React.FC = () => {
   };
 
   const filteredTasks = useMemo(() => {
-    // Log temporal para debug
-    console.log('App.tsx - tasks originales:', tasks);
-    console.log('App.tsx - filter actual:', filter);
-    console.log('App.tsx - searchQuery:', searchQuery);
-
     // Asegurar que tasks es un array
     if (!Array.isArray(tasks)) {
       console.log('App.tsx - tasks no es un array, retornando []');
@@ -179,8 +168,6 @@ const App: React.FC = () => {
 
       return matchesStatus && matchesSearch;
     });
-
-    console.log('App.tsx - tareas filtradas:', filtered);
     return filtered;
   }, [tasks, filter, searchQuery]);
 
