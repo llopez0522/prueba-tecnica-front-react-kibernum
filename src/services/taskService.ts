@@ -86,7 +86,6 @@ export const createTask = async (taskData: CreateTaskDTO): Promise<Task> => {
     );
     console.log('taskService.createTask: Respuesta del backend:', response);
 
-    // La respuesta exitosa tiene estructura: {success: true, data: {...}, message: "..."}
     if (!response.success || !response.data) {
       console.error(
         'taskService.createTask: Respuesta inválida del backend:',
@@ -104,7 +103,14 @@ export const createTask = async (taskData: CreateTaskDTO): Promise<Task> => {
     return convertedTask;
   } catch (error) {
     console.error('taskService.createTask: Error en la petición:', error);
-    throw error; // El error ya contiene el mensaje correcto del servidor
+
+    // Si es un error con mensaje específico (como el 409), lo re-lanzamos
+    if (error instanceof Error) {
+      throw error;
+    }
+
+    // Para otros errores, lanzamos un mensaje genérico
+    throw new Error('Error inesperado al crear la tarea');
   }
 };
 
