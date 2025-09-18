@@ -54,8 +54,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
           onClick={handleToggleStatus}
           className={`p-2 rounded-full transition-colors duration-200 ${
             task.status === Status.Completed
-              ? 'text-yellow-500 hover:bg-yellow-100'
-              : 'text-green-500 hover:bg-green-100'
+              ? 'text-green-500 hover:bg-green-100'
+              : 'text-yellow-500 hover:bg-yellow-100'
           }`}
           title={
             task.status === Status.Completed
@@ -64,9 +64,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
           }
         >
           {task.status === Status.Completed ? (
-            <ClockIcon className="w-5 h-5" />
-          ) : (
             <CheckCircleIcon className="w-5 h-5" />
+          ) : (
+            <ClockIcon className="w-5 h-5" />
           )}
         </button>
         <button
