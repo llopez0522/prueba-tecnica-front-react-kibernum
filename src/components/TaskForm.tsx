@@ -72,6 +72,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
       className="fixed inset-0 z-40 flex items-center justify-center  bg-opacity-20 transition-opacity"
       aria-modal="true"
       role="dialog"
+      style={{ backgroundColor: '#6a7282bf' }}
     >
       <div className="relative bg-white rounded-lg shadow-xl w-full max-w-lg m-4 transform transition-all">
         <div className="flex items-center justify-between p-4 border-b rounded-t">
@@ -80,7 +81,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           </h3>
           <button
             type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center cursor-pointer"
             onClick={onClose}
           >
             <XMarkIcon className="w-5 h-5" />
