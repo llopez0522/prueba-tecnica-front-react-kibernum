@@ -205,7 +205,7 @@ const App: React.FC = () => {
     return (
       <button
         onClick={() => setFilter(value)}
-        className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
+        className={`px-3 py-1 text-sm font-medium rounded-md transition-colors cursor-pointer ${
           isActive
             ? 'bg-blue-600 text-white'
             : 'text-gray-600 hover:bg-gray-200'
@@ -281,6 +281,7 @@ const App: React.FC = () => {
         onClose={closeModal}
         onSubmit={handleTaskSubmit}
         taskToEdit={taskToEdit}
+        isLoading={createTaskMutation.isPending || updateTaskMutation.isPending}
       />
 
       {notification && (
