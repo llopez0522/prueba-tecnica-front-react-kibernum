@@ -52,7 +52,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <div className="flex-shrink-0 flex items-center gap-2 mt-4 sm:mt-0">
         <button
           onClick={handleToggleStatus}
-          className={`p-2 rounded-full transition-colors duration-200 ${
+          className={`p-2 rounded-full transition-colors duration-200 cursor-pointer ${
             task.status === Status.Completed
               ? 'text-green-500 hover:bg-green-100'
               : 'text-yellow-500 hover:bg-yellow-100'
@@ -71,14 +71,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
         </button>
         <button
           onClick={() => onEdit(task)}
-          className="p-2 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+          className="p-2 text-gray-500 hover:text-blue-600 hover:bg-gray-100 rounded-full transition-colors duration-200 cursor-pointer"
           title="Editar tarea"
         >
           <PencilIcon />
         </button>
         <button
           onClick={() => onDelete(task.id.toString())}
-          className="p-2 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+          className="p-2 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded-full transition-colors duration-200 cursor-pointer"
           title="Eliminar tarea"
         >
           <TrashIcon />
