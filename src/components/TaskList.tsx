@@ -15,10 +15,6 @@ const TaskList: React.FC<TaskListProps> = ({
   onDelete,
   onToggleStatus,
 }) => {
-  // Log temporal para verificar qué tareas recibe el componente
-  console.log('TaskList recibiendo tasks:', tasks);
-  console.log('Número de tareas:', tasks.length);
-
   // Función adaptadora para convertir la firma de onToggleStatus
   const handleToggleStatus = (id: number, completed: boolean) => {
     console.log('completed: ', completed);
