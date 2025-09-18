@@ -3,6 +3,7 @@ import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import Notification from './components/Notification';
 import Header from './components/Header';
+import ConfirmationDialog from './components/ConfirmationDialog';
 import { PlusIcon } from './components/icons';
 import { FilterStatus, Status, type Task } from './types/types';
 import {
@@ -25,6 +26,15 @@ const App: React.FC = () => {
   } | null>(null);
   const [filter, setFilter] = useState<FilterStatus>(FilterStatus.All);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    taskId: string;
+    taskTitle: string;
+  }>({
+    isOpen: false,
+    taskId: '',
+    taskTitle: '',
+  });
 
   // React Query hooks
   const { data: tasks = [], isLoading, error } = useTasks();
@@ -88,18 +98,34 @@ const App: React.FC = () => {
   };
 
   const handleDeleteTask = async (id: string) => {
-    if (window.confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
-      try {
-        await deleteTaskMutation.mutateAsync(id);
-        setNotification({ message: 'Tarea eliminada.', type: 'error' });
-      } catch (error) {
-        console.error('Error deleting task:', error);
-        setNotification({
-          message: 'Error al eliminar la tarea.',
-          type: 'error',
-        });
-      }
+    // Buscar la tarea para obtener su título
+    const taskToDelete = tasks.find((task) => task.id.toString() === id);
+    const taskTitle = taskToDelete ? taskToDelete.title : 'esta tarea';
+
+    setConfirmDialog({
+      isOpen: true,
+      taskId: id,
+      taskTitle: taskTitle,
+    });
+  };
+
+  const confirmDeleteTask = async () => {
+    try {
+      await deleteTaskMutation.mutateAsync(confirmDialog.taskId);
+      setNotification({ message: 'Tarea eliminada.', type: 'error' });
+      setConfirmDialog({ isOpen: false, taskId: '', taskTitle: '' });
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      setNotification({
+        message: 'Error al eliminar la tarea.',
+        type: 'error',
+      });
+      setConfirmDialog({ isOpen: false, taskId: '', taskTitle: '' });
     }
+  };
+
+  const cancelDeleteTask = () => {
+    setConfirmDialog({ isOpen: false, taskId: '', taskTitle: '' });
   };
 
   const handleToggleStatus = async (taskToToggle: Task) => {
@@ -264,6 +290,17 @@ const App: React.FC = () => {
           onClose={() => setNotification(null)}
         />
       )}
+
+      <ConfirmationDialog
+        isOpen={confirmDialog.isOpen}
+        title="Eliminar tarea"
+        message={`¿Estás seguro de que quieres eliminar esta tarea? Esta acción no se puede deshacer.`}
+        confirmText="Eliminar"
+        cancelText="Cancel"
+        variant="danger"
+        onConfirm={confirmDeleteTask}
+        onCancel={cancelDeleteTask}
+      />
     </div>
   );
 };
